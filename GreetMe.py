@@ -15,13 +15,13 @@ def speak(query):
 def greetMe():
     hour = int(datetime.datetime.now().hour)
     if hour >= 0 and hour <= 12:
-        speak("Good Morning, Boss")
+        speak("Good Morning Boss.")
     elif hour > 12 and hour <= 18:
-        speak("Good Afternoon, Boss")
+        speak("Good Afternoon Boss")
     else:
-        speak("Good Evening, Boss")
-    speak("What is today's task, Boss?")
+        speak("Good Evening Boss.")
+    speak("What is today's task Boss?")
 
 def iAmUp():
     speak("Yes Boss, I'm raring to go")
-    speak("What's the task now, Boss.")
+    speak("What's the task now Boss.")

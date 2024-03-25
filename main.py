@@ -1,11 +1,15 @@
+import datetime
+
 import pyttsx3
+import requests
 import speech_recognition
 import webbrowser
+from bs4 import BeautifulSoup
 
 engine = pyttsx3.init("sapi5")
 voices = engine.getProperty("voices")
 engine.setProperty("voice", voices[1].id)
-engine.setProperty("rate", 170)
+engine.setProperty("rate", 200)
 
 
 def speak(audio):
@@ -34,7 +38,7 @@ def takeCommand():
 if __name__ == "__main__":
     while True:
         query = takeCommand().lower()
-        if "code alpha" in query:
+        if "alpha" in query:
             from GreetMe import greetMe
             greetMe()
 
@@ -44,18 +48,52 @@ if __name__ == "__main__":
                     speak("Ok sir, I'm on hold.")
                     break
 
-                elif "intro" in query.lower():
-                    intro = "I am Blaze. I am Joker Panda's personal virtual assistant"
+                elif "intro" in query:
+                    intro = "I am EDITH. I am Joker Panda's personal virtual assistant"
                     speak(intro)
 
-                elif "google" in query.lower():
+                elif "open" in query or "launch" in query:
+                    from DictApp import openAppWeb
+                    openAppWeb(query)
+
+                elif "close" in query or "scrap" in query:
+                    from DictApp import closeAppWeb
+                    closeAppWeb(query)
+
+                elif "google" in query:
                     from SearchFile import searchGoogle
                     searchGoogle(query)
 
-                elif "youtube" in query.lower():
+                elif "youtube" in query:
                     from SearchFile import searchYoutube
                     searchYoutube(query)
 
-                elif "code exit" in query.lower():
+                elif "wikipedia" in query:
+                    from SearchFile import searchWikipedia
+                    searchWikipedia(query)
+
+                elif "temperature" in query:
+                    search = "temperature in chennai"
+                    url = f"https://www.google.com/search?q={search}"
+                    r = requests.get(url)
+                    data = BeautifulSoup(r.text,"html.parser")
+                    temp_key = data.find("div", class_ = "BNeawe").text
+                    speak(f"the current {search} is {temp_key}")
+
+                elif "weather" in query:
+                    search = "weather in chennai"
+                    url = f"https://www.google.com/search?q={search}"
+                    r = requests.get(url)
+                    data = BeautifulSoup(r.text,"html.parser")
+                    temp_key = data.find("div", class_ = "BNeawe").text
+                    speak(f"the current {search} is {temp_key}")
+
+                elif "time" in query:
+                    hour = datetime.datetime.now().strftime("%H")
+                    mint = datetime.datetime.now().strftime("%M")
+                    print(hour + ":" + mint)
+                    speak(f"the time is {hour} hours and {mint}minutes")
+
+                elif "code exit" in query:
                     speak("Ok sir, See you again..")
                     exit()
